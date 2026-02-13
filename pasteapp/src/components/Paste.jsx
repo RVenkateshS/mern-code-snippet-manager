@@ -1,7 +1,7 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
 import { useState, useEffect } from 'react';
-import Card from './Card';
+import Card from './card';
 import { useDispatch } from 'react-redux';
 import { removeFromPastes, setPastes } from '../redux/pasteSlice';
 import toast from 'react-hot-toast';
@@ -28,7 +28,7 @@ const Paste = () => {
 
   const handleDelete = (pasteId) => {
     // Delete call to Render
-    
+
     axios.delete(`${baseUrl}/${pasteId}`)
       .then(() => {
         dispatch(removeFromPastes(pasteId));
