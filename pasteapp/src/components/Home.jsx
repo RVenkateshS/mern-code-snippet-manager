@@ -1,11 +1,8 @@
-import React, { useState, useEffect } from 'react'; // Import useEffect
+import React, { useState, useEffect } from 'react'; 
 import { useSelector, useDispatch } from 'react-redux';
 import { useSearchParams } from 'react-router-dom';
-import { addToPastes, updateToPastes,setPastes } from '../redux/pasteSlice';
+import { addToPastes, updateToPastes, setPastes } from '../redux/pasteSlice';
 import axios from 'axios';
-
-
-  //
 
 function Home() {
   const [title, setTitle] = useState('');
@@ -16,9 +13,10 @@ function Home() {
   const pasteId = searchParams.get("pasteId");
   const allPastes = useSelector((state) => state.paste.pastes);
 
-  useEffect(() => {
-    // Scenario 1: We have the data in Redux (Normal case)
+  //   live Render URL
+  const baseUrl = "https://mern-code-snippet-manager.onrender.com/pastes";
 
+  useEffect(() => {
     const paste = allPastes.find((p) => p._id === pasteId);
     
     if (paste) {
@@ -26,38 +24,25 @@ function Home() {
         setValue(paste.content);
         setLanguage(paste.language || "javascript");
     } 
-
-    // Scenario 2: We have an ID, but NO data in Redux (The "Refresh" Bug)
-
     else if (pasteId) {
-        axios.get('http://localhost:5000/pastes')
+        axios.get(baseUrl)
             .then((response) => {
-
-                // 1. Update Redux so other pages have data too
                 dispatch(setPastes(response.data));
-                
-                // 2. Find  specific paste from the fresh data
-
                 const foundPaste = response.data.find((p) => p._id === pasteId);
                 if (foundPaste) {
                     setTitle(foundPaste.title);
                     setValue(foundPaste.content);
                     setLanguage(foundPaste.language || "javascript");
-                } else {
-                    // ID doesn't exist in DB? Reset form.
-                    setTitle('');
-                    setValue('');
                 }
             })
             .catch((err) => console.error("Error fetching for edit:", err));
     } 
-    // Scenario 3: Create Mode (No ID)
     else {
         setTitle('');
         setValue('');
         setLanguage("javascript");
     }
-}, [pasteId, allPastes, dispatch]);
+  }, [pasteId, allPastes, dispatch]);
 
   async function createPaste() {
     const pasteData = {
@@ -69,14 +54,12 @@ function Home() {
 
     try {
         if (pasteId) {
-            // Update Existing
-            await axios.put(`http://localhost:5000/pastes/${pasteId}`, pasteData);
+            // Update call to Render
+            await axios.put(`${baseUrl}/${pasteId}`, pasteData);
             dispatch(updateToPastes({ ...pasteData, _id: pasteId }));
         } else {
-          
-            const response = await axios.post('http://localhost:5000/pastes', pasteData);
-            
-            // The response.data contains the REAL MongoDB _id
+            // Create call to Render
+            const response = await axios.post(baseUrl, pasteData);
             dispatch(addToPastes(response.data)); 
         }
 
@@ -92,9 +75,7 @@ function Home() {
   return (
     <div className="w-full h-screen bg-gray-50 flex flex-col items-center py-8">
       <div className="w-full max-w-4xl flex flex-col gap-6 px-4">
-        
         <div className="flex flex-col md:flex-row gap-4 justify-between items-center bg-white p-2 rounded-xl shadow-sm border border-gray-200">
-          
           <input
             className="flex-grow p-3 text-lg font-medium text-gray-800 placeholder-gray-400 focus:outline-none bg-transparent rounded-lg"
             type="text"
@@ -102,8 +83,6 @@ function Home() {
             value={title}
             onChange={(e) => setTitle(e.target.value)}
           />
-
-           
           <select 
             className="p-3 rounded-lg border border-gray-300 bg-gray-50 font-medium text-gray-700 focus:ring-2 focus:ring-blue-500 focus:outline-none cursor-pointer"
             value={language}
@@ -116,7 +95,6 @@ function Home() {
             <option value="html">HTML</option>
             <option value="cpp">C++</option>
           </select>
-
           <button
             onClick={createPaste}
             className={`px-6 py-3 rounded-lg font-semibold text-white transition-all duration-200 ${pasteId ? "bg-indigo-600" : "bg-black"} shadow-md`}
@@ -124,8 +102,6 @@ function Home() {
             {pasteId ? "Update Paste" : "Create Paste"}
           </button>
         </div>
-
-    
         <div className="flex-grow w-full relative group">
            <textarea
             className="w-full h-[60vh] p-6 bg-white border border-gray-200 rounded-2xl shadow-xl resize-none focus:outline-none focus:ring-2 focus:ring-indigo-100 text-gray-700 leading-relaxed font-mono"
@@ -134,11 +110,9 @@ function Home() {
             onChange={(e) => setValue(e.target.value)}
           />
         </div>
-
       </div>
     </div>
   );
 }
-export default Home;
 
- 
+export default Home;
