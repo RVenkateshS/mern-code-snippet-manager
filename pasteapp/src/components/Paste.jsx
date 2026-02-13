@@ -35,7 +35,7 @@ const Paste = () => {
         toast.success("Paste deleted successfully");
       })
       .catch((err) => {
-        toast.error("Failed to delete");
+        toast.error("Failed to delete paste", err);
       });
   }
 
