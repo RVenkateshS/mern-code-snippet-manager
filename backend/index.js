@@ -48,9 +48,17 @@ app.delete('/pastes/:id', async (req, res) => {
 });
 
 // UPDATE: Edit a paste
+ 
 app.put('/pastes/:id', async (req, res) => {
-    const { title, content } = req.body;
-    const updatedPaste = await Paste.findByIdAndUpdate(req.params.id, { title, content }, { new: true });
+     
+    const { title, content, language } = req.body; 
+ 
+    const updatedPaste = await Paste.findByIdAndUpdate(
+        req.params.id, 
+        { title, content, language }, 
+        { new: true }
+    );
+    
     res.json(updatedPaste);
 });
 
