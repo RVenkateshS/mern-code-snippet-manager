@@ -23,7 +23,7 @@ function Card({ title, content, _id, onDelete }) {
         });
       } catch (error) {
         
-        console.log("Share cancelled");
+        console.log("Share cancelled", error);
       }
     } else {
        
