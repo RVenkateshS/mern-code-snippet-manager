@@ -14,10 +14,10 @@ app.use(cors()); // Allows React to talk to this server
 const MONGO_URI = "mongodb+srv://rshashidha502_db_user:hEBuNOM3OQuhMoAd@users.xvqcfsc.mongodb.net/?appName=Users";
 
 mongoose.connect(MONGO_URI)
-.then(() => console.log("✅ Connected to MongoDB"))
-.catch((err) => console.error("❌ Connection Error:", err));
+    .then(() => console.log("✅ Connected to MongoDB"))
+    .catch((err) => console.error("❌ Connection Error:", err));
 
- 
+
 const pasteSchema = new mongoose.Schema({
     title: String,
     content: String,
@@ -27,16 +27,16 @@ const pasteSchema = new mongoose.Schema({
 
 const Paste = mongoose.model('Paste', pasteSchema);
 
- 
+
 app.get('/pastes', async (req, res) => {
-    const allPastes = await Paste.find();  
-    res.json(allPastes);  
+    const allPastes = await Paste.find();
+    res.json(allPastes);
 });
 
 // POST: Create a new paste
 app.post('/pastes', async (req, res) => {
-    const { title, content } = req.body;
-    const newPaste = new Paste({ title, content });
+    const { title, content, language } = req.body;
+    const newPaste = new Paste({ title, content, language });
     await newPaste.save(); // Save to DB
     res.json(newPaste);
 });
