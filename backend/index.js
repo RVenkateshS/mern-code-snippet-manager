@@ -10,7 +10,7 @@ app.use(express.json()); // Allows us to read JSON data sent from React
 app.use(cors()); // Allows React to talk to this server
 
 // 1. CONNECT TO MONGODB
-// REPLACE <password> with your actual password!
+ 
 const MONGO_URI = "mongodb+srv://rshashidha502_db_user:hEBuNOM3OQuhMoAd@users.xvqcfsc.mongodb.net/?appName=Users";
 
 mongoose.connect(MONGO_URI)
