@@ -60,7 +60,7 @@ app.put('/pastes/:id', async (req, res) => {
     const updatedPaste = await Paste.findByIdAndUpdate(
         req.params.id, 
         { title, content, language }, 
-        { new: true }
+        { returnDocument: 'after' }
     );
     console.log(updatedPaste);
     
