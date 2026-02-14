@@ -31,11 +31,15 @@ const Paste = mongoose.model('Paste', pasteSchema);
 app.get('/pastes', async (req, res) => {
     const allPastes = await Paste.find();
     res.json(allPastes);
+    console.log(allPastes);
+    
 });
 
 // POST: Create a new paste
 app.post('/pastes', async (req, res) => {
     const { title, content, language } = req.body;
+    console.log(req.body);
+    
     const newPaste = new Paste({ title, content, language });
     await newPaste.save(); // Save to DB
     res.json(newPaste);
@@ -58,6 +62,7 @@ app.put('/pastes/:id', async (req, res) => {
         { title, content, language }, 
         { new: true }
     );
+    console.log(updatedPaste);
     
     res.json(updatedPaste);
 });
