@@ -8,8 +8,8 @@ A modern, full-stack **Code Snippet Manager** built with the **MERN Stack**.
 It allows developers to create, store, and manage code snippets with syntax highlighting, search functionality, and instant sharing capabilities.
 
 ## 🚀 Live Demo
-- **Frontend (Vercel):** [Insert Your Vercel Link Here]
-- **Backend (Render):** [Insert Your Render Link Here]
+- **Frontend (Vercel):** (https://mern-code-snippet-manager-3ldts8d5j.vercel.app/)
+- **Backend (Render):** (https://mern-code-snippet-manager.onrender.com)
 
 ---
 
